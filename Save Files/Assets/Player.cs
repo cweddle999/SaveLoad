@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            NewBehaviourScript.Save("Cody", new GameData(health, mana));
+            NewBehaviourScript.Save("Cody", new GameData(health, mana, transform.position, transform.rotation.eulerAngles));
         }
 
 
@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
             
             health = gd.GetHealth;
             mana = gd.GetMana;
+            transform.position = gd.GetPosition;
+            transform.rotation = Quaternion.Euler(gd.GetRotation);
         }
     }
 }
