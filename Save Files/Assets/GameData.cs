@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 using UnityEngine.UIElements;
 
 [System.Serializable]
@@ -8,21 +9,55 @@ public class GameData
 {
     private int _health;
     private int _mana;
-    private VectorToken _position;
-    private VectorToken _rotation;
+
+    private List<GUIDobjecttoken> _guidsInGame = new List<GUIDobjecttoken>();
+
     public int GetHealth { get { return _health; } }
     public int GetMana { get { return _mana; } }
-    public Vector3 GetPosition { get { return _position.GetVector; } }
-    public Vector3 GetRotation { get { return _rotation.GetVector; } }
-
-    public GameData(int health, int mana, Vector3 position, Vector3 rotation)
+    public GameData(int health, int mana)
     {
         _health = health;
         _mana = mana;
-        _position = new VectorToken(position);
-        _rotation = new VectorToken(rotation);
+
+        foreach (KeyValuePair<string, Transform> item in ObjectRefernce.instance.GetObjectDictionary)
+        {
+            _guidsInGame.Add(new GUIDobjecttoken(item));
+        }
+
+    }
+    public void LoadGUIDData()
+    {
+        for (int i = 0; i < _guidsInGame.Count; i++)
+        {
+            _guidsInGame[i].LoadGUIDData();
+        }
     }
 }
+
+
+[System.Serializable]
+public class GUIDobjecttoken
+{
+    string _guid;
+    VectorToken _position;
+    VectorToken _rotation;
+
+    public void LoadGUIDData()
+    {
+        Transform go = ObjectRefernce.instance.ReturnObject(_guid);
+        go.position = _position.GetVector;
+        go.rotation = Quaternion.Euler(_rotation.GetVector);
+    }
+
+    public GUIDobjecttoken(KeyValuePair<string, Transform> go)
+    {
+        _guid = go.Key;
+        _position = new VectorToken(go.Value.position);
+        _rotation = new VectorToken(go.Value.rotation.eulerAngles);
+    }
+
+}
+
 
 [System.Serializable]
 public class VectorToken

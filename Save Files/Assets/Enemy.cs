@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
+
     public int health;
     public int mana;
 
@@ -13,21 +13,21 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            NewBehaviourScript.Save("Cody", new GameData(health, mana));
+            NewBehaviourScript.Save("EnemyData", new GameData(health, mana));
         }
 
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            GameData gd = NewBehaviourScript.Load("Cody");
+            GameData gd = NewBehaviourScript.Load("EnemyData");
             if (gd != null)
             {
                 return;
             }
-            
+
             health = gd.GetHealth;
             mana = gd.GetMana;
-            
+
         }
     }
 }

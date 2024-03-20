@@ -9,11 +9,21 @@ public class GUIDobject : MonoBehaviour
 
     private void OnEnable()
     {
-        if(_GUID == string.Empty)
+        if (_GUID == string.Empty)
         {
             GenerateGUID();
         }
 
+    }
+    private void Start()
+    {
+       // this loop allows you to bypass the [ExecuteAlways] function at the start of the script
+        if(Application.isPlaying == false)
+        {
+            return;
+        }
+        
+        ObjectRefernce.instance?.Register(_GUID, transform);
     }
 
     public void GenerateGUID()

@@ -9,6 +9,10 @@ public class ObjectRefernce : MonoBehaviour
 {
     public static ObjectRefernce instance;
 
+    private Dictionary<string, Transform> _objectDictionary = new Dictionary<string, Transform>();
+
+    public Dictionary<string, Transform> GetObjectDictionary { get { return _objectDictionary; } }
+
     private void Awake()
     {
         if (instance == null)
@@ -24,7 +28,7 @@ public class ObjectRefernce : MonoBehaviour
     {
         if(_objectDictionary.ContainsKey(key) == true)
         {
-            return _objectDictonary[key] = value;
+            _objectDictionary[key] = value;
         }
         else
         {
@@ -34,7 +38,7 @@ public class ObjectRefernce : MonoBehaviour
 
     public Transform ReturnObject(string key)
     {
-        if(_objectDirtionary.ContainsKey(key) == true)
+        if(_objectDictionary.ContainsKey(key) == true)
         {
             return _objectDictionary[key];
         }
