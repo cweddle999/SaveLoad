@@ -18,6 +18,11 @@ public class GameData
             {
                 _guidsInGame.Add(new CharacterGUIDToken(guid));
             }
+            DodadGUID dodad = ObjectRefernce.instance.ReturnObject(item.Key).GetComponent<DodadGUID>();
+            if (dodad != null)
+            {
+                _guidsInGame.Add(new DodadGUIDToken(dodad));
+            }
         }
 
     }
