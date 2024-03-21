@@ -7,21 +7,17 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class GameData
 {
-    private int _health;
-    private int _mana;
-
     private List<GUIDobjecttoken> _guidsInGame = new List<GUIDobjecttoken>();
-
-    public int GetHealth { get { return _health; } }
-    public int GetMana { get { return _mana; } }
-    public GameData(int health, int mana)
+    public GameData()
     {
-        _health = health;
-        _mana = mana;
-
         foreach (KeyValuePair<string, Transform> item in ObjectRefernce.instance.GetObjectDictionary)
         {
-            _guidsInGame.Add(new GUIDobjecttoken(item));
+            //_guidsInGame.Add(new GUIDobjecttoken(item));
+            CharacterGUID guid = ObjectRefernce.instance.ReturnObject(item.Key).GetComponent<CharacterGUID>();
+            if (guid != null)
+            {
+                _guidsInGame.Add(new CharacterGUIDToken(guid));
+            }
         }
 
     }
@@ -36,29 +32,59 @@ public class GameData
 
 
 [System.Serializable]
-public class GUIDobjecttoken
+public abstract class GUIDobjecttoken
 {
-    string _guid;
-    VectorToken _position;
-    VectorToken _rotation;
+    protected string _guid;
+    protected VectorToken _position;
+    protected VectorToken _rotation;
 
-    public void LoadGUIDData()
+    public virtual void LoadGUIDData()
     {
         Transform go = ObjectRefernce.instance.ReturnObject(_guid);
         go.position = _position.GetVector;
         go.rotation = Quaternion.Euler(_rotation.GetVector);
     }
-
+    /*
     public GUIDobjecttoken(KeyValuePair<string, Transform> go)
     {
         _guid = go.Key;
         _position = new VectorToken(go.Value.position);
         _rotation = new VectorToken(go.Value.rotation.eulerAngles);
     }
-
+    */
 }
-
-
+[System.Serializable]
+public class CharacterGUIDToken : GUIDobjecttoken
+{
+    private int _heatlh;
+    private int _mana;
+   
+    public CharacterGUIDToken(CharacterGUID go) 
+    {
+        _guid = go.getGUID;
+        _position = new VectorToken(go.transform.position);
+        _rotation = new VectorToken(go.transform.rotation.eulerAngles);
+        _heatlh = go.Health;
+        _mana = go.Mana;
+    }
+    
+    public override void LoadGUIDData()
+    {
+        base.LoadGUIDData();
+        CharacterGUID go = ObjectRefernce.instance.ReturnObject( _guid).GetComponent<CharacterGUID>();
+        go.Health = _heatlh;
+        go.Mana = _mana;
+    }
+}
+public class DodadGUIDToken : GUIDobjecttoken
+{
+    public DodadGUIDToken(DodadGUID go)
+    {
+        _guid = go.getGUID;
+        _position = new VectorToken(go.transform.position);
+        _rotation = new VectorToken(go.transform.rotation.eulerAngles);
+    }
+}
 [System.Serializable]
 public class VectorToken
 {

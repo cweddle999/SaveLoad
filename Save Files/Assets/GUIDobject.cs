@@ -6,7 +6,7 @@ using UnityEngine;
 public class GUIDobject : MonoBehaviour
 {
     [SerializeField] private string _GUID;
-
+    public string getGUID { get { return _GUID; } }
     private void OnEnable()
     {
         if (_GUID == string.Empty)

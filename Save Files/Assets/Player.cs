@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : CharacterGUID
 {
-    public int health;
-    public int mana;
-
+    
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            NewBehaviourScript.Save("Cody", new GameData(health, mana));
+            NewBehaviourScript.Save("Cody", new GameData());
         }
 
 
@@ -25,9 +23,7 @@ public class Player : MonoBehaviour
                 return;
             }
             
-            health = gd.GetHealth;
-            mana = gd.GetMana;
-            
+            gd.LoadGUIDData();
         }
     }
 }
