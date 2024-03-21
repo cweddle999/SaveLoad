@@ -81,6 +81,7 @@ public class CharacterGUIDToken : GUIDobjecttoken
         go.Mana = _mana;
     }
 }
+[System.Serializable]
 public class DodadGUIDToken : GUIDobjecttoken
 {
     public DodadGUIDToken(DodadGUID go)
