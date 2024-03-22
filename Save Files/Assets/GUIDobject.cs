@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class gives a GUID (a unique id)
+/// @ start of game, registers this object and its GUID.
+/// </summary>
 [ExecuteAlways]
 public class GUIDobject : MonoBehaviour
 {
     [SerializeField] private string _GUID;
     public string getGUID { get { return _GUID; } }
+   
+    // Method OnEnable checks if a GUID exists, if not it will make one.
     private void OnEnable()
     {
         if (_GUID == string.Empty)
@@ -17,7 +23,8 @@ public class GUIDobject : MonoBehaviour
     }
     private void Start()
     {
-       // this loop allows you to bypass the [ExecuteAlways] function at the start of the script
+       // loop allows you to bypass the [ExecuteAlways] function at the start of the script
+       // once the game is actually fired then it will register GUID.
         if(Application.isPlaying == false)
         {
             return;

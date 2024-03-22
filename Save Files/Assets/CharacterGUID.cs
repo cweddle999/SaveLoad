@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// All characters have health and mana, and are a type of GUID'd object
+/// So it has a GUID which can be saved and loaded.
+/// </summary>
 public class CharacterGUID : GUIDobject
 {
     protected int _health;
